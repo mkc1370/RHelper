@@ -1,0 +1,79 @@
+<idea-plugin>
+	<id>name.mkc1370.rhelper</id>
+	<name>RHelper</name>
+	<version>0.0.1</version>
+	<vendor>mkc1370</vendor>
+
+	<description>Sport programming tool to inline library code and provide testing framework.</description>
+
+	<idea-version since-build="201.6251.35"/>
+
+	<depends>com.intellij.modules.rider</depends>
+
+	<extensions defaultExtensionNs="com.intellij">
+		<configurationType implementation="name.mkc1370.rhelper.configuration.TaskConfigurationType"/>
+		<programRunner implementation="name.mkc1370.rhelper.configuration.TaskRunner"/>
+		<executionTargetProvider implementation="name.mkc1370.rhelper.configuration.TaskConfigurationTargetProvider"/>
+	</extensions>
+
+	<application-components>
+		<!-- Add your application components here -->
+	</application-components>
+
+	<project-components>
+		<component>
+			<implementation-class>name.mkc1370.rhelper.components.Configurator</implementation-class>
+		</component>
+		<component>
+			<implementation-class>name.mkc1370.rhelper.components.ChromeParser</implementation-class>
+		</component>
+		<component>
+			<implementation-class>name.mkc1370.rhelper.components.AutoSwitcher</implementation-class>
+		</component>
+	</project-components>
+
+	<actions>
+		<action
+			id="name.mkc1370.rhelper.actions.ConfigureAction"
+			class="name.mkc1370.rhelper.actions.ConfigureAction"
+			text="Configure"
+			description="Configure RHelper"
+			icon="/name/mkc1370/rhelper/icons/settings.png"
+		/>
+		<action
+			id="name.mkc1370.rhelper.actions.AddTaskAction"
+			class="name.mkc1370.rhelper.actions.AddTaskAction"
+			text="Add Task"
+			description="Creates new task."
+			icon="/name/mkc1370/rhelper/icons/newTask.png"
+		/>
+		<action
+			id="name.mkc1370.rhelper.actions.EditTestsAction"
+			class="name.mkc1370.rhelper.actions.EditTestsAction"
+			text="Edit tests"
+			description="Edit tests for a current task"
+			icon="/name/mkc1370/rhelper/icons/editTests.png"
+		/>
+		<action
+			id="name.mkc1370.rhelper.actions.CopySourceAction"
+			class="name.mkc1370.rhelper.actions.CopySourceAction"
+			text="Copy source"
+			description="Copies source of output file"
+			icon="/name/mkc1370/rhelper/icons/copy.png"
+		/>
+		<action
+			id="name.mkc1370.rhelper.actions.ParseContestAction"
+			class="name.mkc1370.rhelper.actions.ParseContestAction"
+			text="Parse contest"
+			description="Creates a task for each problem in a contest"
+			icon="/name/mkc1370/rhelper/icons/parseContest.png"
+		/>
+		<action
+			id="name.mkc1370.rhelper.actions.DeleteTaskAction"
+			class="name.mkc1370.rhelper.actions.DeleteTaskAction"
+			text="Delete task"
+			description="Deletes selected configuration, its task file and class file"
+			icon="/name/mkc1370/rhelper/icons/delete.png"
+		/>
+	</actions>
+</idea-plugin>
