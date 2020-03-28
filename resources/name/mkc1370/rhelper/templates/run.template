@@ -1,79 +1,124 @@
-#include "%TaskFile%"
+using System;
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <cctype>
-#include <ctime>
+public static class TestRunner
+{
+	private readonly struct Test
+	{
+		public readonly string Input;
+		public readonly string Output;
+		public readonly bool Active;
+		public readonly bool HasOutput;
 
-namespace rhelper {
-
-struct Test {
-	std::string input;
-	std::string output;
-	bool active;
-	bool has_output;
-};
-
-bool check(std::string expected, std::string actual) {
-	while(!expected.empty() && isspace(*--expected.end()))
-		expected.erase(--expected.end());
-	while(!actual.empty() && isspace(*--actual.end()))
-		actual.erase(--actual.end());
-	return expected == actual;
-}
-
-} // namespace rhelper
-
-int main() {
-	std::vector<rhelper::Test> tests = {
-		%Tests%
+		public Test(string input, string output, bool active, bool hasOutput)
+		{
+			Input = input;
+			Output = output;
+			Active = active;
+			HasOutput = hasOutput;
+		}
 	};
-	bool allOK = true;
-	int testID = 0;
-	std::cout << std::fixed;
-	double maxTime = 0.0;
-	for(const rhelper::Test& test: tests ) {
-		std::cout << "Test #" << ++testID << std::endl;
-		std::cout << "Input: \n" << test.input << std::endl;
-		if (test.has_output) {
-			std::cout << "Expected output: \n" << test.output << std::endl;
-		}
-		else {
-			std::cout << "Expected output: \n" << "N/A" << std::endl;
-		}
-		if (test.active) {
-			std::stringstream in(test.input);
-			std::ostringstream out;
-			std::clock_t start = std::clock();
-			%ClassName% solver;
-			%SolverCall%
-			std::clock_t finish = std::clock();
-			double currentTime = double(finish - start) / CLOCKS_PER_SEC;
-			maxTime = std::max(currentTime, maxTime);
-			std::cout << "Actual output: \n" << out.str() << std::endl;
-			if (test.has_output) {
-				bool result = rhelper::check(test.output, out.str());
-				allOK = allOK && result;
-				std::cout << "Result: " << (result ? "OK" : "Wrong answer") << std::endl;
+
+	private static bool Check(string expected, string actual)
+	{
+		expected = expected.Replace(" ", "").Replace( "\r", "" ).Replace( "\n", "" );
+		actual = actual.Replace(" ", "").Replace( "\r", "" ).Replace( "\n", "" );
+		return expected == actual;
+	}
+
+	public static void Main()
+	{
+		Test[] tests =
+		{
+			%Tests%
+		};
+		var allAC = true;
+		var testId = 0;
+		var maxTime = new TimeSpan();
+		foreach (var test in tests)
+		{
+			Console.WriteLine($"Test #{++testId}");
+			Console.WriteLine($"Input: \n{test.Input}");
+			if (test.HasOutput)
+			{
+				Console.WriteLine("Expected output: ");
+				Console.WriteLine(test.Output);
 			}
-			std::cout << "Time: " << currentTime << std::endl;
-		}
-		else {
-			std::cout << "SKIPPED\n";
+			else
+			{
+				Console.WriteLine("Expected output: ");
+				Console.WriteLine("N/A");
+			}
+
+			if (test.Active)
+			{
+				var reader = new System.IO.StringReader(test.Input);
+				var writer = new System.IO.StringWriter();
+				var stopwatch = new System.Diagnostics.Stopwatch();
+				stopwatch.Start();
+
+				var solver = new %ClassName%();
+				solver.Solve(reader, writer);
+
+				stopwatch.Stop();
+				var currentTime = stopwatch.Elapsed;
+				maxTime = currentTime < maxTime ? maxTime : currentTime;
+
+				Console.WriteLine("Actual output: ");
+				Console.WriteLine(writer.GetStringBuilder().ToString());
+				if (test.HasOutput)
+				{
+					bool result = Check(test.Output, writer.GetStringBuilder().ToString());
+					allAC = allAC && result;
+					PrintStatus(result ? Status.AC : Status.WA);
+				}
+
+				Console.WriteLine($"Time: {currentTime.TotalSeconds:F5}s.");
+			}
+			else
+			{
+				Console.WriteLine("SKIPPED");
+			}
+			Console.WriteLine();
 		}
 
-		std::cout << std::endl;
+		PrintStatus(allAC ? Status.AC : Status.WA, true);
 
+		Console.WriteLine($"Maximal time: {maxTime.TotalSeconds:F5}s.");
 	}
-	if(allOK) {
-		std::cout << "All OK" << std::endl;
+
+	private static void PrintStatus(Status status, bool all = false)
+	{
+		switch (status)
+		{
+			case Status.CE:
+			case Status.MLE:
+			case Status.TLE:
+			case Status.RE:
+			case Status.OLE:
+			case Status.IE:
+			case Status.WA:
+				Console.BackgroundColor = ConsoleColor.DarkYellow;
+				break;
+			case Status.AC:
+				Console.BackgroundColor = ConsoleColor.Green;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException(nameof(status), status, null);
+		}
+
+		Console.WriteLine(all ? $"=== {status.ToString()} ===" : status.ToString());
+		Console.ResetColor();
 	}
-	else {
-		std::cout << "Some cases failed" << std::endl;
+
+	private enum Status
+	{
+		CE,
+		MLE,
+		TLE,
+		RE,
+		OLE,
+		IE,
+		WA,
+		AC
 	}
-	std::cout << "Maximal time: " << maxTime << "s." << std::endl;
-	return 0;
 }

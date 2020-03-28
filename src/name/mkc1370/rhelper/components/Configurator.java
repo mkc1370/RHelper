@@ -56,7 +56,7 @@ public class Configurator implements ProjectComponent, PersistentStateComponent<
 		}
 
 		public State() {
-			this("", "Tasks", "Output/Main.cs", "TestRunner/Main.cs", false, false);
+			this("", "Tasks", "Output/Output.cs", "TestRunner/TaskRunner.cs", false, false);
 		}
 
 		public String getAuthor() {

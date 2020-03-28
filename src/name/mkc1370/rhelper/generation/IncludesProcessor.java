@@ -58,8 +58,9 @@ public class IncludesProcessor {
 //	}
 
 	public static @NotNull String process(PsiFile file) {
-		IncludesProcessor processor = new IncludesProcessor();
+//		IncludesProcessor processor = new IncludesProcessor();
 //		processor.processFile(file);
-		return processor.result.toString();
+//		return processor.result.toString();
+        return file.getText();
 	}
 }

@@ -1,12 +1,15 @@
-#include <iostream>
-#include <fstream>
+using System;
 
 %Code%
 
-int main() {
-	%ClassName% solver;
-	%Input%
-	%Output%
-	%SolverCall%
-	return 0;
+public class Output
+{
+	public static void Main()
+	{
+		var reader = new System.IO.StringReader(Console.In.ReadToEnd());
+		var writer = new System.IO.StringWriter();
+		var solver = new %ClassName%();
+		solver.Solve(reader, writer);
+		Console.Write(writer.GetStringBuilder().ToString());
+	}
 }

@@ -14,6 +14,10 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.PsiManager;
 
+import com.jetbrains.rider.ideaInterop.find.scopes.RiderProjectScope;
+import com.jetbrains.rider.model.ProjectId;
+import com.jetbrains.rider.model.Solution;
+import com.jetbrains.rider.model.SolutionModel;
 import name.mkc1370.rhelper.configuration.TaskConfiguration;
 import name.mkc1370.rhelper.configuration.TaskConfigurationType;
 import name.mkc1370.rhelper.exceptions.NotificationException;
@@ -46,14 +50,14 @@ public class TaskUtils {
 			throw new NotificationException("Couldn't open parent directory as PSI");
 		}
 
-		Language csharp = Language.findLanguageByID("C#");
-		if (csharp == null) {
+		Language cSharp = Language.findLanguageByID("C#");
+		if (cSharp == null) {
 			throw new NotificationException("Language not found");
 		}
 
 		PsiFile file = PsiFileFactory.getInstance(project).createFileFromText(
 				FileUtils.getFilename(taskData.getSourcePath()),
-				csharp,
+				cSharp,
 				getTaskContent(project, taskData.getClassName())
 		);
 		if (file == null) {

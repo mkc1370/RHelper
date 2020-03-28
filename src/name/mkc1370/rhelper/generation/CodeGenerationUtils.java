@@ -101,12 +101,12 @@ public class CodeGenerationUtils {
 		StringBuilder result = new StringBuilder();
 		for (Test test : tests) {
 			result.append(
-					"{" +
+					"new Test(" +
 					quote(test.input) + ", " +
 					quote(test.output != null ? test.output : "") + ", " +
-					Boolean.toString(test.active) + ", " +
-					Boolean.toString(test.output != null) +
-					"},"
+					test.active + ", " +
+					(test.output != null) +
+					"),"
 			);
 		}
 		return result.toString();
@@ -184,6 +184,7 @@ public class CodeGenerationUtils {
 		       "}";
 	}
 
+	// TODO: Support it
 	private static String generateSolverCall(TestType testType) {
 		switch (testType) {
 			case SINGLE:

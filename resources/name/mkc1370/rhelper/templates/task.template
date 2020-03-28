@@ -1,8 +1,14 @@
-#include <iostream>
+using System;
 
-class %ClassName% {
-public:
-	void Solve(std::istream& in, std::ostream& out) {
+%Code%
 
+public class Output
+{
+	public static void Main()
+	{
+		var reader = new System.IO.StreamReader(Console.OpenStandardInput());
+		var writer = new System.IO.StringWriter();
+		var solver = new %ClassName%();
+		solver.Solve(reader, writer);
 	}
-};
+}

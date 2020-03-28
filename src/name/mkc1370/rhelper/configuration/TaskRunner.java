@@ -26,7 +26,7 @@ import java.util.List;
  * as described in <a href="http://confluence.jetbrains.com/display/IDEADEV/Run+Configurations#RunConfigurations-RunningaProcess">IDEA DEV Confluence</a>
  */
 public class TaskRunner implements ProgramRunner<RunnerSettings> {
-	private static final String RUN_CONFIGURATION_NAME = "testrunner";
+	private static final String RUN_CONFIGURATION_NAME = "TestRunner";
 
 	@NotNull
 	@Override
