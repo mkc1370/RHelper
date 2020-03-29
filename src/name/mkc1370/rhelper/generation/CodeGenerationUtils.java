@@ -85,7 +85,7 @@ public class CodeGenerationUtils {
 
 
 	private static String generateRunFileContent(Project project, TaskConfiguration task, String path) {
-		String template = TemplatesUtils.getTemplate(project, "run");
+		String template = TemplatesUtils.getTemplate(project, "TestRunner");
 		template = TemplatesUtils.replaceAll(template, TemplatesUtils.TASK_FILE, path);
 		template = TemplatesUtils.replaceAll(template, TemplatesUtils.TESTS, generateTestDeclaration(task.getTests()));
 		template = TemplatesUtils.replaceAll(template, TemplatesUtils.CLASS_NAME, task.getClassName());
@@ -130,7 +130,7 @@ public class CodeGenerationUtils {
 	}
 
 	private static String generateSubmissionFileContent(Project project, String code, TaskConfiguration task) {
-		String template = TemplatesUtils.getTemplate(project, "submission");
+		String template = TemplatesUtils.getTemplate(project, "Output");
 		if (task.getInput().type == StreamConfiguration.StreamType.LOCAL_REGEXP) {
 			code = code + '\n' + generateFileNameGetter();
 		}

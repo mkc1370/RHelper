@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+namespace Task.%ClassName%
+{
+    public class %ClassName%
+    {
+        public void Solve()
+        {
+        }
+
+        private readonly StringReader cin;
+        private readonly StringWriter cout;
+        private readonly Scanner scanner;
+
+        public %ClassName%(StringReader cin, StringWriter cout)
+        {
+            this.cin = cin;
+            this.cout = cout;
+        }
+    }
+}

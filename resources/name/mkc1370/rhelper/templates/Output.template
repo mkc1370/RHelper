@@ -1,4 +1,4 @@
-using System;
+using Task.%ClassName%;
 
 %Code%
 
@@ -8,8 +8,8 @@ public class Output
 	{
 		var reader = new System.IO.StringReader(Console.In.ReadToEnd());
 		var writer = new System.IO.StringWriter();
-		var solver = new %ClassName%();
-		solver.Solve(reader, writer);
-		Console.Write(writer.GetStringBuilder().ToString());
+		var solver = new %ClassName%(reader, writer);
+		solver.Solve();
+		System.Console.Write(writer.GetStringBuilder().ToString());
 	}
 }
